@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CloudGuard</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #0b1120;
+            color: #e5e7eb;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 92%;
+            max-width: 1200px;
+            margin: auto;
+            padding: 30px 0 50px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            font-size: 30px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .logo span {
+            color: #38bdf8;
+        }
+
+        .subtitle {
+            color: #94a3b8;
+            margin-top: 5px;
+        }
+
+        .system-status {
+            background: #052e16;
+            color: #4ade80;
+            padding: 10px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            border: 1px solid #166534;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 24px;
+        }
+
+        .card {
+            background: #111827;
+            border: 1px solid #1f2937;
+            border-radius: 14px;
+            padding: 24px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+        }
+
+        .card h2 {
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            color: #94a3b8;
+            font-size: 13px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 18px;
+            border-radius: 8px;
+            border: 1px solid #374151;
+            background: #0f172a;
+            color: #ffffff;
+            outline: none;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #38bdf8;
+        }
+
+        button {
+            border: none;
+            border-radius: 8px;
+            padding: 11px 16px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .create-btn {
+            width: 100%;
+            background: #0284c7;
+            color: white;
+            font-size: 15px;
+        }
+
+        .create-btn:hover {
+            background: #0369a1;
+        }
+
+        .refresh-btn {
+            background: #1e293b;
+            color: #cbd5e1;
+            border: 1px solid #334155;
+        }
+
+        .refresh-btn:hover {
+            background: #334155;
+        }
+
+        .env-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .environment {
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+
+        .env-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .branch {
+            font-size: 18px;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .status {
+            background: #052e16;
+            color: #4ade80;
+            border: 1px solid #166534;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+        }
+
+        .status.not-running {
+            background: #450a0a;
+            color: #f87171;
+            border-color: #991b1b;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .info-box {
+            background: #111827;
+            border: 1px solid #1f2937;
+            padding: 13px;
+            border-radius: 8px;
+        }
+
+        .info-label {
+            font-size: 11px;
+            color: #64748b;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .info-value {
+            font-size: 14px;
+            color: #e2e8f0;
+            word-break: break-word;
+        }
+
+        .monitoring {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .metric {
+            background: #111827;
+            border: 1px solid #1f2937;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .metric-title {
+            color: #94a3b8;
+            font-size: 12px;
+            margin-bottom: 7px;
+        }
+
+        .metric-value {
+            font-size: 21px;
+            font-weight: 700;
+            color: #38bdf8;
+        }
+
+        .progress {
+            width: 100%;
+            height: 6px;
+            background: #1e293b;
+            border-radius: 5px;
+            margin-top: 9px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: #38bdf8;
+            width: 0%;
+            transition: width 0.5s;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .preview-btn {
+            background: #16a34a;
+            color: white;
+        }
+
+        .preview-btn:hover {
+            background: #15803d;
+        }
+
+        .delete-btn {
+            background: #7f1d1d;
+            color: #fecaca;
+        }
+
+        .delete-btn:hover {
+            background: #991b1b;
+        }
+
+        .empty {
+            text-align: center;
+            color: #64748b;
+            padding: 40px 10px;
+        }
+
+        .count {
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        .auto-refresh {
+            color: #64748b;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 850px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 550px) {
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .info-grid,
+            .monitoring {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <header>
+        <div>
+            <div class="logo">Cloud<span>Guard</span></div>
+            <div class="subtitle">
+                Cost-Aware Preview Environment Platform
+            </div>
+        </div>
+
+        <div class="system-status">
+            ● System Operational
+        </div>
+    </header>
+
+    <div class="grid">
+
+        <!-- CREATE ENVIRONMENT -->
+        <div class="card">
+
+            <h2>Create Preview Environment</h2>
+
+            <form id="createForm">
+
+                <label for="branch">Git Branch</label>
+
+                <input
+                    id="branch"
+                    type="text"
+                    value="feature/monitoring"
+                    placeholder="feature/login"
+                >
+
+                <label for="commit">Commit</label>
+
+                <input
+                    id="commit"
+                    type="text"
+                    value="abc123"
+                    placeholder="commit SHA"
+                >
+
+                <label for="ttl">Environment TTL</label>
+
+                <select id="ttl">
+                    <option value="30">30 minutes</option>
+                    <option value="60" selected>60 minutes</option>
+                    <option value="120">120 minutes</option>
+                    <option value="240">240 minutes</option>
+                </select>
+
+                <button class="create-btn" type="submit">
+                    + Create Preview Environment
+                </button>
+
+            </form>
+
+            <div class="auto-refresh">
+                Monitoring automatically refreshes every 5 seconds.
+            </div>
+
+        </div>
+
+
+        <!-- ENVIRONMENTS -->
+        <div class="card">
+
+            <div class="env-header">
+
+                <div>
+                    <h2>Preview Environments</h2>
+                    <div class="count" id="environmentCount">
+                        0 environments
+                    </div>
+                </div>
+
+                <button
+                    class="refresh-btn"
+                    onclick="loadEnvironments()"
+                >
+                    ↻ Refresh
+                </button>
+
+            </div>
+
+            <div id="environmentList">
+
+                <div class="empty">
+                    No preview environments running.
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+async function loadEnvironments() {
+
+    try {
+
+        const response = await fetch("/environments");
+
+        const data = await response.json();
+
+        const list = document.getElementById("environmentList");
+
+        const count = document.getElementById("environmentCount");
+
+        count.textContent =
+            `${data.count} environment${data.count === 1 ? "" : "s"}`;
+
+        if (data.environments.length === 0) {
+
+            list.innerHTML = `
+                <div class="empty">
+                    No preview environments running.
+                </div>
+            `;
+
+            return;
+        }
+
+        list.innerHTML = "";
+
+        data.environments.forEach(env => {
+
+            const cpu = Number(env.cpu_percent || 0);
+
+            const memory = Number(env.memory_percent || 0);
+
+            const running =
+                env.container_status === "running";
+
+            const card = document.createElement("div");
+
+            card.className = "environment";
+
+            card.innerHTML = `
+
+                <div class="env-top">
+
+                    <div class="branch">
+                        ${escapeHtml(env.branch)}
+                    </div>
+
+                    <div class="status ${running ? "" : "not-running"}">
+                        ● ${escapeHtml(env.container_status || env.status)}
+                    </div>
+
+                </div>
+
+
+                <div class="info-grid">
+
+                    <div class="info-box">
+                        <div class="info-label">
+                            Environment ID
+                        </div>
+
+                        <div class="info-value">
+                            ${escapeHtml(env.id)}
+                        </div>
+                    </div>
+
+
+                    <div class="info-box">
+                        <div class="info-label">
+                            Container ID
+                        </div>
+
+                        <div class="info-value">
+                            ${escapeHtml(env.container_id || "-")}
+                        </div>
+                    </div>
+
+
+                    <div class="info-box">
+                        <div class="info-label">
+                            Container
+                        </div>
+
+                        <div class="info-value">
+                            ${escapeHtml(env.container_name || "-")}
+                        </div>
+                    </div>
+
+
+                    <div class="info-box">
+                        <div class="info-label">
+                            Commit
+                        </div>
+
+                        <div class="info-value">
+                            ${escapeHtml(env.commit)}
+                        </div>
+                    </div>
+
+
+                    <div class="info-box">
+                        <div class="info-label">
+                            Preview Port
+                        </div>
+
+                        <div class="info-value">
+                            ${env.preview_port || "-"}
+                        </div>
+                    </div>
+
+
+                    <div class="info-box">
+                        <div class="info-label">
+                            Expires
+                        </div>
+
+                        <div class="info-value">
+                            ${escapeHtml(env.expires_in)}
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="monitoring">
+
+                    <div class="metric">
+
+                        <div class="metric-title">
+                            CPU Usage
+                        </div>
+
+                        <div class="metric-value">
+                            ${cpu.toFixed(2)}%
+                        </div>
+
+                        <div class="progress">
+                            <div
+                                class="progress-bar"
+                                style="width:${Math.min(cpu, 100)}%"
+                            ></div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="metric">
+
+                        <div class="metric-title">
+                            Memory Usage
+                        </div>
+
+                        <div class="metric-value">
+                            ${Number(env.memory_usage_mb || 0).toFixed(2)} MB
+                        </div>
+
+                        <div class="progress">
+                            <div
+                                class="progress-bar"
+                                style="width:${Math.min(memory, 100)}%"
+                            ></div>
+                        </div>
+
+                        <div class="metric-title">
+                            ${memory.toFixed(2)}%
+                            of
+                            ${Number(env.memory_limit_mb || 0).toFixed(0)} MB
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="actions">
+
+                    <button
+                        class="preview-btn"
+                        onclick="openPreview('${escapeHtml(env.preview_url || "")}')"
+                    >
+                        ↗ Open Preview
+                    </button>
+
+                    <button
+                        class="delete-btn"
+                        onclick="deleteEnvironment('${env.id}')"
+                    >
+                        Delete
+                    </button>
+
+                </div>
+
+            `;
+
+            list.appendChild(card);
+
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        document.getElementById("environmentList").innerHTML = `
+            <div class="empty">
+                Unable to load environments.
+            </div>
+        `;
+
+    }
+
+}
+
+
+async function createEnvironment(event) {
+
+    event.preventDefault();
+
+    const branch =
+        document.getElementById("branch").value.trim();
+
+    const commit =
+        document.getElementById("commit").value.trim();
+
+    const ttl =
+        document.getElementById("ttl").value;
+
+    try {
+
+        const response = await fetch(
+            "/environments",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    branch: branch || "feature/demo",
+                    commit: commit || "local-dev",
+                    ttl_minutes: Number(ttl)
+                })
+            }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+
+            alert(
+                data.error ||
+                "Failed to create environment"
+            );
+
+            return;
+        }
+
+        await loadEnvironments();
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(
+            "Could not connect to CloudGuard."
+        );
+
+    }
+
+}
+
+
+async function deleteEnvironment(id) {
+
+    if (!confirm(
+        "Delete this preview environment?"
+    )) {
+        return;
+    }
+
+    try {
+
+        const response = await fetch(
+            `/environments/${id}`,
+            {
+                method: "DELETE"
+            }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+
+            alert(
+                data.error ||
+                "Failed to delete environment"
+            );
+
+            return;
+        }
+
+        await loadEnvironments();
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(
+            "Could not delete environment."
+        );
+
+    }
+
+}
+
+
+function openPreview(url) {
+
+    if (!url) {
+
+        alert(
+            "Preview URL is not available."
+        );
+
+        return;
+    }
+
+    window.open(url, "_blank");
+
+}
+
+
+function escapeHtml(value) {
+
+    return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+
+}
+
+
+document
+    .getElementById("createForm")
+    .addEventListener(
+        "submit",
+        createEnvironment
+    );
+
+
+loadEnvironments();
+
+setInterval(
+    loadEnvironments,
+    5000
+);
+
+</script>
+
+</body>
+</html>

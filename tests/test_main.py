@@ -17,11 +17,8 @@ def test_home(client):
     response = client.get("/")
 
     assert response.status_code == 200
-
-    data = response.get_json()
-
-    assert data["project"] == "CloudGuard"
-    assert data["status"] == "running"
+    assert b"CloudGuard" in response.data
+    assert b"Create Preview Environment" in response.data
 
 
 def test_health(client):
@@ -75,13 +72,17 @@ def test_create_environment(client):
     assert data["branch"] == "feature/login"
     assert data["commit"] == "abc123"
     assert data["expires_in"] == "60 minutes"
+
     assert "id" in data
     assert "created_at" in data
     assert "expires_at" in data
 
 
 def test_create_environment_defaults(client):
-    response = client.post("/environments", json={})
+    response = client.post(
+        "/environments",
+        json={}
+    )
 
     assert response.status_code == 201
 
@@ -95,7 +96,9 @@ def test_create_environment_defaults(client):
 def test_invalid_ttl(client):
     response = client.post(
         "/environments",
-        json={"ttl_minutes": 0}
+        json={
+            "ttl_minutes": 0
+        }
     )
 
     assert response.status_code == 400
@@ -125,7 +128,9 @@ def test_delete_environment(client):
 
 
 def test_delete_missing_environment(client):
-    response = client.delete("/environments/not-found")
+    response = client.delete(
+        "/environments/not-found"
+    )
 
     assert response.status_code == 404
 
