@@ -1,0 +1,11 @@
+# Rename to backend.tf ONLY after creating the bucket (see GUIDE step 9).
+# Remote state = state file stored in S3 instead of your laptop.
+terraform {
+  backend "s3" {
+    bucket       = "REPLACE-with-your-unique-bucket-name"
+    key          = "cloudguard/terraform.tfstate"
+    region       = "us-east-1"
+    encrypt      = true
+    use_lockfile = true # needs Terraform >= 1.10. On older versions use: dynamodb_table = "your-lock-table"
+  }
+}

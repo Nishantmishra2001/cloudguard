@@ -1,0 +1,46 @@
+name: CI - tests and security scan
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  cost-guard-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run Cost Guard unit tests
+        run: python -m unittest discover -s tests -p "test_cost_guard.py" -v
+
+  trivy-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build CloudGuard image
+        run: docker build -t cloudguard:ci .
+
+      - name: Build preview app image
+        run: docker build -t cloudguard-preview:ci ./preview_app
+
+      # exit-code 0 = report only. After you fix the findings, change to 1
+      # so the pipeline FAILS on HIGH/CRITICAL vulnerabilities.
+      - name: Trivy - scan container images
+        run: |
+          for img in cloudguard:ci cloudguard-preview:ci; do
+            docker run --rm -v /var/run/docker.sock:/var/run/docker.sock \
+              aquasec/trivy:latest image \
+              --severity HIGH,CRITICAL --ignore-unfixed --exit-code 0 "$img"
+          done
+
+      - name: Trivy - scan Terraform for misconfigurations
+        run: |
+          docker run --rm -v "$PWD:/src" aquasec/trivy:latest config /src/terraform \
+            --severity HIGH,CRITICAL --exit-code 0

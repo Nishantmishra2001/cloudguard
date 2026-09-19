@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>CloudGuard</title>
 
     <style>
@@ -11,7 +10,7 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: Arial, Helvetica, sans-serif;
+            font-family: Inter, Arial, sans-serif;
         }
 
         body {
@@ -22,7 +21,7 @@
 
         .container {
             width: 92%;
-            max-width: 1200px;
+            max-width: 1250px;
             margin: auto;
             padding: 30px 0 50px;
         }
@@ -31,13 +30,13 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 30px;
+            margin-bottom: 28px;
         }
 
         .logo {
-            font-size: 30px;
-            font-weight: 700;
-            color: #ffffff;
+            font-size: 32px;
+            font-weight: 800;
+            color: #fff;
         }
 
         .logo span {
@@ -46,53 +45,85 @@
 
         .subtitle {
             color: #94a3b8;
-            margin-top: 5px;
+            margin-top: 6px;
+            font-size: 14px;
         }
 
         .system-status {
             background: #052e16;
             color: #4ade80;
-            padding: 10px 16px;
-            border-radius: 20px;
-            font-size: 14px;
             border: 1px solid #166534;
+            padding: 9px 15px;
+            border-radius: 20px;
+            font-size: 13px;
         }
+
+        /* SUMMARY */
+
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .summary-card {
+            background: #111827;
+            border: 1px solid #1f2937;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .summary-label {
+            color: #64748b;
+            font-size: 12px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .summary-value {
+            font-size: 27px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        /* MAIN */
 
         .grid {
             display: grid;
-            grid-template-columns: 350px 1fr;
-            gap: 24px;
+            grid-template-columns: 340px 1fr;
+            gap: 22px;
         }
 
         .card {
             background: #111827;
             border: 1px solid #1f2937;
             border-radius: 14px;
-            padding: 24px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+            padding: 23px;
         }
 
         .card h2 {
+            font-size: 19px;
             margin-bottom: 20px;
-            font-size: 20px;
+            color: #f8fafc;
         }
 
         label {
             display: block;
-            margin-bottom: 7px;
             color: #94a3b8;
-            font-size: 13px;
+            font-size: 12px;
+            margin-bottom: 7px;
         }
 
         input,
         select {
             width: 100%;
             padding: 12px;
-            margin-bottom: 18px;
+            margin-bottom: 17px;
             border-radius: 8px;
             border: 1px solid #374151;
             background: #0f172a;
-            color: #ffffff;
+            color: #fff;
             outline: none;
         }
 
@@ -102,9 +133,9 @@
         }
 
         button {
-            border: none;
+            border: 0;
             border-radius: 8px;
-            padding: 11px 16px;
+            padding: 11px 15px;
             cursor: pointer;
             font-weight: 600;
         }
@@ -113,11 +144,38 @@
             width: 100%;
             background: #0284c7;
             color: white;
-            font-size: 15px;
+            font-size: 14px;
         }
 
         .create-btn:hover {
             background: #0369a1;
+        }
+
+        .create-btn:disabled {
+            opacity: .6;
+            cursor: not-allowed;
+        }
+
+        .help-text {
+            color: #64748b;
+            font-size: 11px;
+            line-height: 1.6;
+            margin-top: 12px;
+        }
+
+        /* ENVIRONMENT HEADER */
+
+        .env-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .count {
+            color: #64748b;
+            font-size: 12px;
+            margin-top: -12px;
         }
 
         .refresh-btn {
@@ -130,32 +188,29 @@
             background: #334155;
         }
 
-        .env-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
+        /* ENVIRONMENT */
 
         .environment {
             background: #0f172a;
             border: 1px solid #334155;
             border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 16px;
+            padding: 19px;
+            margin-bottom: 14px;
         }
 
         .env-top {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 18px;
+            gap: 10px;
+            margin-bottom: 17px;
         }
 
         .branch {
-            font-size: 18px;
-            font-weight: 600;
-            color: #ffffff;
+            font-size: 17px;
+            font-weight: 700;
+            color: #fff;
+            word-break: break-word;
         }
 
         .status {
@@ -164,7 +219,8 @@
             border: 1px solid #166534;
             padding: 5px 10px;
             border-radius: 15px;
-            font-size: 12px;
+            font-size: 11px;
+            white-space: nowrap;
         }
 
         .status.not-running {
@@ -173,83 +229,88 @@
             border-color: #991b1b;
         }
 
+        /* INFO */
+
         .info-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            margin-bottom: 18px;
+            gap: 10px;
+            margin-bottom: 13px;
         }
 
         .info-box {
+            background: #111827;
+            border: 1px solid #1f2937;
+            padding: 11px;
+            border-radius: 8px;
+        }
+
+        .info-label {
+            font-size: 10px;
+            color: #64748b;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .info-value {
+            font-size: 13px;
+            color: #e2e8f0;
+            word-break: break-word;
+        }
+
+        /* METRICS */
+
+        .monitoring {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+
+        .metric {
             background: #111827;
             border: 1px solid #1f2937;
             padding: 13px;
             border-radius: 8px;
         }
 
-        .info-label {
-            font-size: 11px;
-            color: #64748b;
-            margin-bottom: 5px;
-            text-transform: uppercase;
-        }
-
-        .info-value {
-            font-size: 14px;
-            color: #e2e8f0;
-            word-break: break-word;
-        }
-
-        .monitoring {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            margin-bottom: 18px;
-        }
-
-        .metric {
-            background: #111827;
-            border: 1px solid #1f2937;
-            padding: 15px;
-            border-radius: 8px;
-        }
-
         .metric-title {
             color: #94a3b8;
-            font-size: 12px;
-            margin-bottom: 7px;
+            font-size: 11px;
+            margin-bottom: 5px;
         }
 
         .metric-value {
-            font-size: 21px;
+            font-size: 20px;
             font-weight: 700;
             color: #38bdf8;
         }
 
         .progress {
             width: 100%;
-            height: 6px;
+            height: 5px;
             background: #1e293b;
             border-radius: 5px;
-            margin-top: 9px;
+            margin-top: 8px;
             overflow: hidden;
         }
 
         .progress-bar {
             height: 100%;
             background: #38bdf8;
-            width: 0%;
-            transition: width 0.5s;
+            transition: width .4s;
         }
+
+        /* ACTIONS */
 
         .actions {
             display: flex;
-            gap: 10px;
+            gap: 9px;
         }
 
         .preview-btn {
             background: #16a34a;
-            color: white;
+            color: #fff;
         }
 
         .preview-btn:hover {
@@ -265,40 +326,76 @@
             background: #991b1b;
         }
 
+        /* EMPTY */
+
         .empty {
             text-align: center;
             color: #64748b;
-            padding: 40px 10px;
+            padding: 55px 15px;
+            border: 1px dashed #334155;
+            border-radius: 10px;
         }
 
-        .count {
+        .empty-icon {
+            font-size: 35px;
+            margin-bottom: 10px;
+        }
+
+        /* TOAST */
+
+        .toast {
+            position: fixed;
+            right: 25px;
+            bottom: 25px;
+            background: #1e293b;
+            border: 1px solid #334155;
+            color: #fff;
+            padding: 13px 17px;
+            border-radius: 9px;
+            opacity: 0;
+            transform: translateY(15px);
+            pointer-events: none;
+            transition: .25s;
+            z-index: 100;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .toast.success {
+            border-color: #166534;
+        }
+
+        .toast.error {
+            border-color: #991b1b;
+        }
+
+        .refresh-info {
             color: #64748b;
-            font-size: 13px;
+            font-size: 11px;
+            margin-top: 9px;
         }
 
-        .auto-refresh {
-            color: #64748b;
-            font-size: 12px;
-            margin-top: 10px;
-        }
+        @media (max-width: 950px) {
+            .summary {
+                grid-template-columns: 1fr 1fr;
+            }
 
-        @media (max-width: 850px) {
             .grid {
                 grid-template-columns: 1fr;
             }
-
-            .info-grid {
-                grid-template-columns: 1fr 1fr;
-            }
         }
 
-        @media (max-width: 550px) {
+        @media (max-width: 600px) {
             header {
                 flex-direction: column;
                 align-items: flex-start;
                 gap: 15px;
             }
 
+            .summary,
             .info-grid,
             .monitoring {
                 grid-template-columns: 1fr;
@@ -315,7 +412,7 @@
         <div>
             <div class="logo">Cloud<span>Guard</span></div>
             <div class="subtitle">
-                Cost-Aware Preview Environment Platform
+                Cost-Aware Self-Service Preview Environment Platform
             </div>
         </div>
 
@@ -324,12 +421,43 @@
         </div>
     </header>
 
+
+    <!-- SUMMARY -->
+
+    <div class="summary">
+
+        <div class="summary-card">
+            <div class="summary-label">Active Environments</div>
+            <div class="summary-value" id="activeCount">0</div>
+        </div>
+
+        <div class="summary-card">
+            <div class="summary-label">Running Containers</div>
+            <div class="summary-value" id="runningCount">0</div>
+        </div>
+
+        <div class="summary-card">
+            <div class="summary-label">Average CPU</div>
+            <div class="summary-value" id="avgCpu">0%</div>
+        </div>
+
+        <div class="summary-card">
+            <div class="summary-label">Memory Used</div>
+            <div class="summary-value" id="totalMemory">0 MB</div>
+        </div>
+
+    </div>
+
+
+    <!-- MAIN -->
+
     <div class="grid">
 
-        <!-- CREATE ENVIRONMENT -->
+        <!-- CREATE -->
+
         <div class="card">
 
-            <h2>Create Preview Environment</h2>
+            <h2>+ Create Preview</h2>
 
             <form id="createForm">
 
@@ -338,17 +466,19 @@
                 <input
                     id="branch"
                     type="text"
-                    value="feature/monitoring"
+                    value="feature/demo"
                     placeholder="feature/login"
+                    required
                 >
 
-                <label for="commit">Commit</label>
+                <label for="commit">Commit SHA</label>
 
                 <input
                     id="commit"
                     type="text"
-                    value="abc123"
-                    placeholder="commit SHA"
+                    value="local-dev"
+                    placeholder="abc123"
+                    required
                 >
 
                 <label for="ttl">Environment TTL</label>
@@ -360,26 +490,34 @@
                     <option value="240">240 minutes</option>
                 </select>
 
-                <button class="create-btn" type="submit">
-                    + Create Preview Environment
+                <button
+                    class="create-btn"
+                    id="createButton"
+                    type="submit"
+                >
+                    Create Preview Environment
                 </button>
 
             </form>
 
-            <div class="auto-refresh">
-                Monitoring automatically refreshes every 5 seconds.
+            <div class="help-text">
+                Creates an isolated Docker preview container with a
+                dynamically assigned port, resource monitoring and automatic
+                expiry.
             </div>
 
         </div>
 
 
         <!-- ENVIRONMENTS -->
+
         <div class="card">
 
             <div class="env-header">
 
                 <div>
                     <h2>Preview Environments</h2>
+
                     <div class="count" id="environmentCount">
                         0 environments
                     </div>
@@ -397,9 +535,16 @@
             <div id="environmentList">
 
                 <div class="empty">
+                    <div class="empty-icon">☁</div>
                     No preview environments running.
+                    <br>
+                    Create one from the panel.
                 </div>
 
+            </div>
+
+            <div class="refresh-info">
+                ● Metrics refresh automatically every 5 seconds
             </div>
 
         </div>
@@ -409,7 +554,35 @@
 </div>
 
 
+<div id="toast" class="toast"></div>
+
+
 <script>
+
+function escapeHtml(value) {
+
+    return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+}
+
+
+function showToast(message, type = "success") {
+
+    const toast = document.getElementById("toast");
+
+    toast.textContent = message;
+
+    toast.className = `toast show ${type}`;
+
+    setTimeout(() => {
+        toast.className = "toast";
+    }, 3000);
+}
+
 
 async function loadEnvironments() {
 
@@ -419,36 +592,79 @@ async function loadEnvironments() {
 
         const data = await response.json();
 
+        if (!response.ok) {
+            throw new Error(data.error || "Unable to load environments");
+        }
+
+        const environments = data.environments || [];
+
         const list = document.getElementById("environmentList");
 
-        const count = document.getElementById("environmentCount");
+        document.getElementById("environmentCount").textContent =
+            `${environments.length} environment${environments.length === 1 ? "" : "s"}`;
 
-        count.textContent =
-            `${data.count} environment${data.count === 1 ? "" : "s"}`;
+        document.getElementById("activeCount").textContent =
+            environments.length;
 
-        if (data.environments.length === 0) {
+        const running = environments.filter(
+            env => env.container_status === "running"
+        );
+
+        document.getElementById("runningCount").textContent =
+            running.length;
+
+
+        const avgCpu = environments.length
+            ? environments.reduce(
+                (sum, env) => sum + Number(env.cpu_percent || 0),
+                0
+              ) / environments.length
+            : 0;
+
+        document.getElementById("avgCpu").textContent =
+            `${avgCpu.toFixed(1)}%`;
+
+
+        const totalMemory = environments.reduce(
+            (sum, env) => sum + Number(env.memory_usage_mb || 0),
+            0
+        );
+
+        document.getElementById("totalMemory").textContent =
+            `${totalMemory.toFixed(1)} MB`;
+
+
+        if (environments.length === 0) {
 
             list.innerHTML = `
                 <div class="empty">
+                    <div class="empty-icon">☁</div>
                     No preview environments running.
+                    <br>
+                    Create one from the panel.
                 </div>
             `;
 
             return;
         }
 
+
         list.innerHTML = "";
 
-        data.environments.forEach(env => {
+
+        environments.forEach(env => {
 
             const cpu = Number(env.cpu_percent || 0);
-
             const memory = Number(env.memory_percent || 0);
 
             const running =
                 env.container_status === "running";
 
-            const card = document.createElement("div");
+            const previewUrl =
+                env.preview_url || "";
+
+            const card =
+                document.createElement("div");
 
             card.className = "environment";
 
@@ -461,7 +677,11 @@ async function loadEnvironments() {
                     </div>
 
                     <div class="status ${running ? "" : "not-running"}">
-                        ● ${escapeHtml(env.container_status || env.status)}
+                        ● ${escapeHtml(
+                            env.container_status ||
+                            env.status ||
+                            "unknown"
+                        )}
                     </div>
 
                 </div>
@@ -470,67 +690,44 @@ async function loadEnvironments() {
                 <div class="info-grid">
 
                     <div class="info-box">
-                        <div class="info-label">
-                            Environment ID
-                        </div>
-
+                        <div class="info-label">Environment</div>
                         <div class="info-value">
                             ${escapeHtml(env.id)}
                         </div>
                     </div>
 
-
                     <div class="info-box">
-                        <div class="info-label">
-                            Container ID
-                        </div>
-
-                        <div class="info-value">
-                            ${escapeHtml(env.container_id || "-")}
-                        </div>
-                    </div>
-
-
-                    <div class="info-box">
-                        <div class="info-label">
-                            Container
-                        </div>
-
-                        <div class="info-value">
-                            ${escapeHtml(env.container_name || "-")}
-                        </div>
-                    </div>
-
-
-                    <div class="info-box">
-                        <div class="info-label">
-                            Commit
-                        </div>
-
+                        <div class="info-label">Commit</div>
                         <div class="info-value">
                             ${escapeHtml(env.commit)}
                         </div>
                     </div>
 
-
                     <div class="info-box">
-                        <div class="info-label">
-                            Preview Port
-                        </div>
-
+                        <div class="info-label">Container</div>
                         <div class="info-value">
-                            ${env.preview_port || "-"}
+                            ${escapeHtml(env.container_name || "-")}
                         </div>
                     </div>
 
+                    <div class="info-box">
+                        <div class="info-label">Port</div>
+                        <div class="info-value">
+                            ${escapeHtml(env.preview_port || "-")}
+                        </div>
+                    </div>
 
                     <div class="info-box">
-                        <div class="info-label">
-                            Expires
-                        </div>
-
+                        <div class="info-label">Expires In</div>
                         <div class="info-value">
-                            ${escapeHtml(env.expires_in)}
+                            ${escapeHtml(env.expires_in || "-")}
+                        </div>
+                    </div>
+
+                    <div class="info-box">
+                        <div class="info-label">Status</div>
+                        <div class="info-value">
+                            ${escapeHtml(env.status || "-")}
                         </div>
                     </div>
 
@@ -566,7 +763,9 @@ async function loadEnvironments() {
                         </div>
 
                         <div class="metric-value">
-                            ${Number(env.memory_usage_mb || 0).toFixed(2)} MB
+                            ${Number(
+                                env.memory_usage_mb || 0
+                            ).toFixed(1)} MB
                         </div>
 
                         <div class="progress">
@@ -579,7 +778,9 @@ async function loadEnvironments() {
                         <div class="metric-title">
                             ${memory.toFixed(2)}%
                             of
-                            ${Number(env.memory_limit_mb || 0).toFixed(0)} MB
+                            ${Number(
+                                env.memory_limit_mb || 0
+                            ).toFixed(0)} MB
                         </div>
 
                     </div>
@@ -591,20 +792,19 @@ async function loadEnvironments() {
 
                     <button
                         class="preview-btn"
-                        onclick="openPreview('${escapeHtml(env.preview_url || "")}')"
+                        onclick="openPreview('${escapeHtml(previewUrl)}')"
                     >
                         ↗ Open Preview
                     </button>
 
                     <button
                         class="delete-btn"
-                        onclick="deleteEnvironment('${env.id}')"
+                        onclick="deleteEnvironment('${escapeHtml(env.id)}')"
                     >
                         Delete
                     </button>
 
                 </div>
-
             `;
 
             list.appendChild(card);
@@ -617,7 +817,7 @@ async function loadEnvironments() {
 
         document.getElementById("environmentList").innerHTML = `
             <div class="empty">
-                Unable to load environments.
+                Unable to load CloudGuard environments.
             </div>
         `;
 
@@ -630,6 +830,9 @@ async function createEnvironment(event) {
 
     event.preventDefault();
 
+    const button =
+        document.getElementById("createButton");
+
     const branch =
         document.getElementById("branch").value.trim();
 
@@ -637,7 +840,12 @@ async function createEnvironment(event) {
         document.getElementById("commit").value.trim();
 
     const ttl =
-        document.getElementById("ttl").value;
+        Number(document.getElementById("ttl").value);
+
+
+    button.disabled = true;
+    button.textContent = "Creating environment...";
+
 
     try {
 
@@ -651,24 +859,31 @@ async function createEnvironment(event) {
                 },
 
                 body: JSON.stringify({
-                    branch: branch || "feature/demo",
-                    commit: commit || "local-dev",
-                    ttl_minutes: Number(ttl)
+                    branch: branch,
+                    commit: commit,
+                    ttl_minutes: ttl
                 })
             }
         );
 
-        const data = await response.json();
+
+        const data =
+            await response.json();
+
 
         if (!response.ok) {
 
-            alert(
+            throw new Error(
                 data.error ||
                 "Failed to create environment"
             );
 
-            return;
         }
+
+
+        showToast(
+            `Preview created on port ${data.preview_port}`
+        );
 
         await loadEnvironments();
 
@@ -676,9 +891,17 @@ async function createEnvironment(event) {
 
         console.error(error);
 
-        alert(
-            "Could not connect to CloudGuard."
+        showToast(
+            error.message ||
+            "Could not create environment",
+            "error"
         );
+
+    } finally {
+
+        button.disabled = false;
+        button.textContent =
+            "Create Preview Environment";
 
     }
 
@@ -693,6 +916,7 @@ async function deleteEnvironment(id) {
         return;
     }
 
+
     try {
 
         const response = await fetch(
@@ -702,17 +926,24 @@ async function deleteEnvironment(id) {
             }
         );
 
-        const data = await response.json();
+
+        const data =
+            await response.json();
+
 
         if (!response.ok) {
 
-            alert(
+            throw new Error(
                 data.error ||
                 "Failed to delete environment"
             );
 
-            return;
         }
+
+
+        showToast(
+            "Preview environment deleted"
+        );
 
         await loadEnvironments();
 
@@ -720,8 +951,10 @@ async function deleteEnvironment(id) {
 
         console.error(error);
 
-        alert(
-            "Could not delete environment."
+        showToast(
+            error.message ||
+            "Could not delete environment",
+            "error"
         );
 
     }
@@ -733,26 +966,15 @@ function openPreview(url) {
 
     if (!url) {
 
-        alert(
-            "Preview URL is not available."
+        showToast(
+            "Preview URL is not available",
+            "error"
         );
 
         return;
     }
 
     window.open(url, "_blank");
-
-}
-
-
-function escapeHtml(value) {
-
-    return String(value)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
 
 }
 

@@ -8,3 +8,12 @@ terraform.tfstate
 terraform.tfstate.*
 crash.log
 .DS_Store
+
+# v2 upgrade
+__pycache__/
+.terraform/
+*.tfstate
+*.tfstate.*
+terraform/modules/cost_guard/cost_guard.zip
+monitoring/.env
+terraform/terraform.tfvars
