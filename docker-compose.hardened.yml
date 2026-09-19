@@ -1,0 +1,27 @@
+# OPTIONAL (GUIDE step 8): run CloudGuard WITHOUT mounting the raw Docker socket.
+# The proxy only allows the API calls CloudGuard needs (list/create/stop/delete
+# containers, stats). If CloudGuard breaks, add the missing permission below
+# (e.g. NETWORKS: 1) - the error in `docker logs cloudguard` tells you which.
+services:
+  docker-proxy:
+    image: tecnativa/docker-socket-proxy:latest   # pin a version tag once it works
+    container_name: cg-docker-proxy
+    restart: unless-stopped
+    environment:
+      CONTAINERS: 1
+      IMAGES: 1
+      POST: 1
+      DELETE: 1
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  cloudguard:
+    image: cloudguard:8.0          # the image you already build
+    container_name: cloudguard
+    restart: unless-stopped
+    environment:
+      DOCKER_HOST: tcp://docker-proxy:2375   # docker SDK reads this automatically
+    ports:
+      - "5000:5000"
+    depends_on:
+      - docker-proxy
