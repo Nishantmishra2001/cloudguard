@@ -4,3 +4,8 @@ variable "aws_region" {
   default     = "us-east-1"
 }
 
+
+variable "alert_email" {
+  description = "Email for Cost Guard reports"
+  type        = string
+}

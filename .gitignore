@@ -16,3 +16,4 @@ __pycache__/
 *.tfstate.*
 terraform/modules/cost_guard/cost_guard.zip
 monitoring/.env
+terraform/terraform.tfvars
